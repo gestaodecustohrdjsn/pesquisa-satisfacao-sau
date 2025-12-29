@@ -1,98 +1,50 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Pesquisa de Satisfação</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesquisa de Satisfação</title>
 
-<style>
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background: #f4f6f8;
-}
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Bree+Serif&display=swap" rel="stylesheet">
 
-.tela {
-  display: none;
-}
-
-.tela.ativa {
-  display: block;
-}
-
-.botao {
-  font-size: 26px;
-  padding: 20px;
-  margin: 15px;
-  width: 280px;
-  border-radius: 15px;
-  border: none;
-}
-
-.feliz { background: #4CAF50; color: white; }
-.neutro { background: #FFC107; }
-.triste { background: #F44336; color: white; }
-</style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<div id="tela1" class="tela ativa">
-  <h1>Qual setor você utilizou?</h1>
-  <button class="botao" onclick="setor='Ambulatório'; proxima(2)">Ambulatório</button>
-  <button class="botao" onclick="setor='Pronto-Socorro'; proxima(2)">Pronto-Socorro</button>
-</div>
+  <div class="container">
 
-<div id="tela2" class="tela">
-  <h1>Como foi o atendimento?</h1>
-  <button class="botao feliz" onclick="atendimento='Ótimo'; proxima(3)">😀 Ótimo</button>
-  <button class="botao neutro" onclick="atendimento='Regular'; proxima(3)">😐 Regular</button>
-  <button class="botao triste" onclick="atendimento='Ruim'; proxima(3)">😞 Ruim</button>
-</div>
+    <header>
+      <img src="assets/images/logo_hospital.png" alt="Logo Hospital">
+      <h1>Pesquisa de Satisfação</h1>
+      <p>Sua opinião é muito importante para nós</p>
+    </header>
 
-<div id="tela3" class="tela">
-  <h1>Tempo de espera</h1>
-  <button class="botao feliz" onclick="espera='Rápido'; proxima(4)">⏱️ Rápido</button>
-  <button class="botao neutro" onclick="espera='Adequado'; proxima(4)">⏱️ Adequado</button>
-  <button class="botao triste" onclick="espera='Demorado'; proxima(4)">⏱️ Demorado</button>
-</div>
+    <!-- TELA 1 -->
+    <section class="tela ativa" id="tela1">
+      <h2>Como você avalia o atendimento?</h2>
 
-<div id="tela4" class="tela">
-  <h1>Limpeza do local</h1>
-  <button class="botao feliz" onclick="limpeza='Boa'; enviar()">😀 Boa</button>
-  <button class="botao neutro" onclick="limpeza='Regular'; enviar()">😐 Regular</button>
-  <button class="botao triste" onclick="limpeza='Ruim'; enviar()">😞 Ruim</button>
-</div>
+      <div class="opcoes">
+        <button onclick="responder('Muito Satisfeito')">
+          <img src="assets/images/Muito Satisfeito.png">
+          <span>Muito satisfeito</span>
+        </button>
 
-<div id="telaFinal" class="tela">
-  <h1>Obrigado pela sua participação ❤️</h1>
-  <p>A pesquisa será reiniciada automaticamente</p>
-</div>
+        <button onclick="responder('Satisfeito')">
+          <img src="assets/images/Satisfeito.png">
+          <span>Satisfeito</span>
+        </button>
 
-<script>
-let setor="", atendimento="", espera="", limpeza="";
+        <button onclick="responder('Insatisfeito')">
+          <img src="assets/images/Insatisfeito.png">
+          <span>Insatisfeito</span>
+        </button>
+      </div>
+    </section>
 
-function proxima(n) {
-  document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-  document.getElementById('tela'+n).classList.add('ativa');
-}
-
-function enviar() {
-  fetch("https://script.google.com/macros/s/AKfycbzI8QHImk3orqpxVUdSBnyeOqsfbiM-sM5zBO0oiwk87DIwzoczHsKoAcUXHhjnuKst/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      setor,
-      atendimento,
-      espera,
-      limpeza
-    })
-  });
-
-  document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-  document.getElementById('telaFinal').classList.add('ativa');
-
-  setTimeout(() => location.reload(), 5000);
-}
-</script>
-
-</body>
-</html>
+    <!-- FINAL -->
+    <section class="tela" id="telaFinal">
+      <h2>Obrigado pela sua participação 💙</h2>
+      <p>A pesquisa será reiniciada automaticamente</p>
+    </section>
