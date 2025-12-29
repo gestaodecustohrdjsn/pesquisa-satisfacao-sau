@@ -93,20 +93,18 @@ function animarTrocaPergunta(callback) {
    ENVIO (ONLINE / OFFLINE)
 ========================= */
 function enviarDados() {
-  const payload = {
-    setor: "Ambulatório",
-    atendimento: respostas.atendimento || "",
-    espera: respostas.espera || "",
-    limpeza: respostas.limpeza || "",
-    data: new Date().toISOString()
-  };
+
+  const dados = new URLSearchParams();
+  dados.append("setor", "Ambulatório");
+  dados.append("atendimento", respostas.atendimento || "");
+  dados.append("espera", respostas.espera || "");
+  dados.append("limpeza", respostas.limpeza || "");
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
     body: dados,
-    mode: "no-cors"   // 👈 ISSO RESOLVE
-  });
-    .catch(() => salvarOffline(payload));
+    mode: "no-cors" // 👈 mantém isso
+  }).catch(() => salvarOffline(dados.toString()));
 
   mostrarTelaFinal();
 }
@@ -114,9 +112,9 @@ function enviarDados() {
 /* =========================
    OFFLINE
 ========================= */
-function salvarOffline(dados) {
+function salvarOffline(dadosString) {
   const fila = JSON.parse(localStorage.getItem("fila_respostas")) || [];
-  fila.push(dados);
+  fila.push(dadosString);
   localStorage.setItem("fila_respostas", JSON.stringify(fila));
 }
 
@@ -129,7 +127,7 @@ function enviarFilaOffline() {
   fila.forEach((dados, index) => {
     fetch(URL_APPS_SCRIPT, {
       method: "POST",
-      body: JSON.stringify(dados),
+      body: dados,
       mode: "no-cors"
     }).then(() => {
       fila.splice(index, 1);
@@ -137,6 +135,7 @@ function enviarFilaOffline() {
     });
   });
 }
+
 
 /* =========================
    TELA FINAL + RESET
