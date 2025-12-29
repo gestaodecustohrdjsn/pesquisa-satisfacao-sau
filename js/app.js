@@ -1,15 +1,17 @@
+/* =========================
+   CONFIG GERAL
+========================= */
 const URL_APPS_SCRIPT =
   "https://script.google.com/macros/s/AKfycbx7iYRrxsWgPkuZz3j-qw_Demn5-fMRzhxbiuYdMbnMHf5grvxJpEFkXqyprGG5M6PM/exec";
 
+// setor via URL ?setor=Ambulatorio | ?setor=Pronto%20Socorro
 const params = new URLSearchParams(window.location.search);
 const SETOR = params.get("setor") || "Ambulatório";
 
 console.log("Setor ativo:", SETOR);
 
-console.log("Ok - JS carregado com sucesso");
-
 /* =========================
-   CONFIGURAÇÃO DAS PERGUNTAS
+   PERGUNTAS
 ========================= */
 const perguntas = [
   { id: "avaliacao_geral", texto: "1 - Qual sua Avaliação Geral do Hospital?" },
@@ -30,17 +32,15 @@ const mapaRespostas = {
   3: "Muito satisfeito"
 };
 
-console.log("Mapa ativo:", mapaRespostas);
-
 /* =========================
-   VARIÁVEIS DE CONTROLE
+   CONTROLE
 ========================= */
 let indice = 0;
 let respostas = {};
 let bloqueado = false;
 
 /* =========================
-   ELEMENTOS DA TELA
+   ELEMENTOS
 ========================= */
 const perguntaEl = document.getElementById("pergunta");
 const telaPergunta = document.getElementById("tela-pergunta");
@@ -50,6 +50,7 @@ const telaFinal = document.getElementById("tela-final");
    INICIALIZA
 ========================= */
 mostrarPergunta();
+reenviarFilaOffline();
 console.log("JS carregado com sucesso");
 
 /* =========================
@@ -60,7 +61,7 @@ function mostrarPergunta() {
 }
 
 /* =========================
-   RESPONDER (CLIQUES)
+   RESPONDER
 ========================= */
 function responder(valor) {
   if (bloqueado) return;
@@ -76,13 +77,13 @@ function responder(valor) {
       mostrarPergunta();
       bloqueado = false;
     } else {
-      enviarDados();
+      finalizarPesquisa();
     }
   });
 }
 
 /* =========================
-   ANIMAÇÃO ENTRE PERGUNTAS
+   ANIMAÇÃO
 ========================= */
 function animarTrocaPergunta(callback) {
   telaPergunta.classList.add("saindo");
@@ -94,65 +95,66 @@ function animarTrocaPergunta(callback) {
     setTimeout(() => {
       telaPergunta.classList.remove("entrando");
       callback();
-    }, 100);
-  }, 350);
+    }, 120);
+  }, 300);
 }
 
 /* =========================
-   ENVIO (ONLINE / OFFLINE)
+   FINALIZAR
+========================= */
+function finalizarPesquisa() {
+  mostrarTelaFinal();
+  enviarDados(); // envio nunca bloqueia UI
+}
+
+/* =========================
+   ENVIO
 ========================= */
 function enviarDados() {
-
   const dados = new URLSearchParams();
   dados.append("setor", SETOR);
-  dados.append("avaliacao_geral", respostas.avaliacao_geral || "");
-  dados.append("recepcao", respostas.recepcao || "");
-  dados.append("enfermagem", respostas.enfermagem || "");
-  dados.append("medico", respostas.medico || "");
-  dados.append("limpeza", respostas.limpeza || "");
-  dados.append("tempo", respostas.tempo || "");
-  dados.append("educacao", respostas.educacao || "");
 
+  perguntas.forEach(p => {
+    dados.append(p.id, respostas[p.id] || "");
+  });
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
     body: dados,
-    mode: "no-cors" // 👈 mantém isso
+    mode: "no-cors"
   }).catch(() => salvarOffline(dados.toString()));
-
-  mostrarTelaFinal();
 }
 
 /* =========================
    OFFLINE
 ========================= */
-function salvarOffline(dadosString) {
-  const fila = JSON.parse(localStorage.getItem("fila_respostas")) || [];
-  fila.push(dadosString);
+function salvarOffline(payload) {
+  const fila = JSON.parse(localStorage.getItem("fila_respostas") || "[]");
+  fila.push(payload);
   localStorage.setItem("fila_respostas", JSON.stringify(fila));
 }
 
-window.addEventListener("online", enviarFilaOffline);
+window.addEventListener("online", reenviarFilaOffline);
 
-function enviarFilaOffline() {
-  const fila = JSON.parse(localStorage.getItem("fila_respostas")) || [];
+function reenviarFilaOffline() {
+  const fila = JSON.parse(localStorage.getItem("fila_respostas") || "[]");
   if (!fila.length) return;
 
-  fila.forEach((dados, index) => {
+  const restante = [];
+
+  fila.forEach(payload => {
     fetch(URL_APPS_SCRIPT, {
       method: "POST",
-      body: dados,
+      body: payload,
       mode: "no-cors"
-    }).then(() => {
-      fila.splice(index, 1);
-      localStorage.setItem("fila_respostas", JSON.stringify(fila));
-    });
+    }).catch(() => restante.push(payload));
   });
+
+  localStorage.setItem("fila_respostas", JSON.stringify(restante));
 }
 
-
 /* =========================
-   TELA FINAL + RESET
+   TELA FINAL / RESET
 ========================= */
 function mostrarTelaFinal() {
   telaPergunta.classList.add("hidden");
@@ -171,6 +173,3 @@ function reiniciar() {
 
   mostrarPergunta();
 }
-
-
-
