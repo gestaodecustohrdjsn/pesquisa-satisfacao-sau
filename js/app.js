@@ -12,9 +12,13 @@ console.log("Ok - JS carregado com sucesso");
    CONFIGURAÇÃO DAS PERGUNTAS
 ========================= */
 const perguntas = [
-  { id: "atendimento", texto: "Como você avalia o atendimento?" },
-  { id: "espera", texto: "Como você avalia o tempo de espera?" },
-  { id: "limpeza", texto: "Como você avalia a limpeza do setor?" }
+  { id: "avaliacao_geral", texto: "1 - Como você avalia o atendimento?" },
+  { id: "recepcao", texto: "2 - Como você avalia o tempo de espera?" },
+  { id: "enfermagem", texto: "3 - Como você avalia a limpeza do setor?" },
+  { id: "medico", texto: "4 - Como você avalia a limpeza do setor?" },
+  { id: "limpeza", texto: "5 - Como você avalia a limpeza do setor?" },
+  { id: "tempo", texto: "6 - Como você avalia a limpeza do setor?" },
+  { id: "educacao", texto: "7 - Como você avalia a limpeza do setor?" }
 ];
 
 /* =========================
@@ -101,9 +105,14 @@ function enviarDados() {
 
   const dados = new URLSearchParams();
   dados.append("setor", SETOR);
-  dados.append("atendimento", respostas.atendimento || "");
-  dados.append("espera", respostas.espera || "");
+  dados.append("avaliacao_geral", respostas.avaliacao_geral || "");
+  dados.append("recepcao", respostas.recepcao || "");
+  dados.append("enfermagem", respostas.enfermagem || "");
+  dados.append("medico", respostas.medico || "");
   dados.append("limpeza", respostas.limpeza || "");
+  dados.append("tempo", respostas.tempo || "");
+  dados.append("educacao", respostas.educacao || "");
+
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
