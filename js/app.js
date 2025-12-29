@@ -1,5 +1,5 @@
 const URL_APPS_SCRIPT =
-  "https://script.google.com/macros/s/AKfycbyGMuzVVrpv4iMM9WTm_4nqRjh3HBCKcnRfqOd9Dfdgq0uPHv04e0Qi-gEEymiTBUn7/exec";
+  "https://script.google.com/macros/s/AKfycbx7iYRrxsWgPkuZz3j-qw_Demn5-fMRzhxbiuYdMbnMHf5grvxJpEFkXqyprGG5M6PM/exec";
 
 const params = new URLSearchParams(window.location.search);
 const SETOR = params.get("setor") || "Ambulatório";
