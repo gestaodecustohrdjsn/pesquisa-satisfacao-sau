@@ -22,7 +22,7 @@ function mostrarPergunta() {
 
 function responder(valor) {
   const chave = perguntas[indice].id;
-  respostas[chave] = valor;
+  respostas[chave] = mapaRespostas[valor];
 
   indice++;
 
@@ -63,4 +63,12 @@ function reiniciar() {
 }
 
 console.log("Ok - JS carregado com sucesso");
+
+// 🔹 Mapeamento de valores para texto
+const mapaRespostas = {
+  1: "Insatisfeito",
+  2: "Satisfeito",
+  3: "Muito satisfeito"
+};
+
 
