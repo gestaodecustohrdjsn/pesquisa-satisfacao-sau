@@ -1,7 +1,7 @@
-// 🔗 URL do seu Apps Script publicado como Web App
+// 🔗 URL do Apps Script (Web App)
 const URL_SCRIPT = "COLE_AQUI_SUA_URL_DO_APPS_SCRIPT";
 
-// ⚠️ Torna a função visível para o HTML
+// Torna a função visível para o HTML
 window.responder = function(resposta) {
   console.log("Clique detectado:", resposta);
 
