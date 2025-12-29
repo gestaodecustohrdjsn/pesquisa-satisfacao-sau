@@ -14,6 +14,9 @@ const mapaRespostas = {
   3: "Muito satisfeito"
 };
 
+console.log("Mapa ativo:", mapaRespostas);
+
+
 let indice = 0;
 let respostas = {};
 
@@ -27,8 +30,13 @@ function mostrarPergunta() {
   perguntaEl.innerText = perguntas[indice].texto;
 }
 
+
 function responder(valor) {
   const chave = perguntas[indice].id;
+
+  console.log("Valor recebido:", valor);
+  console.log("Valor convertido:", mapaRespostas[valor]);
+
   respostas[chave] = mapaRespostas[valor];
 
   indice++;
@@ -39,6 +47,7 @@ function responder(valor) {
     enviarDados();
   }
 }
+
 
 function enviarDados() {
 
