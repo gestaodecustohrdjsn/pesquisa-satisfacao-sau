@@ -126,3 +126,24 @@ h2 {
     max-width: 100%; 
   }
 }
+
+/* ===== ANIMAÇÃO DE TRANSIÇÃO ===== */
+
+.tela {
+  transition: transform 0.45s ease, opacity 0.35s ease;
+}
+
+.tela.saindo {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+
+.tela.entrando {
+  transform: translateX(40px);
+  opacity: 0;
+}
+
+.tela.ativa {
+  transform: translateX(0);
+  opacity: 1;
+}
