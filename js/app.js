@@ -12,10 +12,10 @@ console.log("Ok - JS carregado com sucesso");
    CONFIGURAÇÃO DAS PERGUNTAS
 ========================= */
 const perguntas = [
-  { id: "avaliacao_geral", texto: "1 - Qual Sua avaliação geral do Hospital?" },
+  { id: "avaliacao_geral", texto: "1 - Qual sua Avaliação Geral do Hospital?" },
   { id: "recepcao", texto: "2 - Como você avalia o atendimento da Recepção?" },
   { id: "enfermagem", texto: "3 - Como você avalia o atendimento da Enfermagem e Triagem?" },
-  { id: "medico", texto: "4 - Como você avalia a o atendimento Médico?" },
+  { id: "medico", texto: "4 - Como você avalia o atendimento Médico?" },
   { id: "limpeza", texto: "5 - Como você avalia a Limpeza do ambiente?" },
   { id: "tempo", texto: "6 - Como você avalia o Tempo de Espera?" },
   { id: "educacao", texto: "7 - Como você avalia a Educação e Respeito dos profissionais?" }
