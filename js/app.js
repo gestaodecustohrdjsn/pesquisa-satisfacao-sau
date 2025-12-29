@@ -7,6 +7,13 @@ const perguntas = [
   { id: "limpeza", texto: "Como você avalia a limpeza do setor?" }
 ];
 
+// 🔹 Mapeamento de valores para texto
+const mapaRespostas = {
+  1: "Insatisfeito",
+  2: "Satisfeito",
+  3: "Muito satisfeito"
+};
+
 let indice = 0;
 let respostas = {};
 
@@ -64,11 +71,6 @@ function reiniciar() {
 
 console.log("Ok - JS carregado com sucesso");
 
-// 🔹 Mapeamento de valores para texto
-const mapaRespostas = {
-  1: "Insatisfeito",
-  2: "Satisfeito",
-  3: "Muito satisfeito"
-};
+
 
 
