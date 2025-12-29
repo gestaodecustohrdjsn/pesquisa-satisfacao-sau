@@ -43,10 +43,9 @@ function enviarDados() {
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
-    body: dados
-  })
-  .then(() => console.log("Dados enviados com sucesso"))
-  .catch(err => console.error("Erro no envio", err));
+    body: dados,
+    mode: "no-cors"   // 👈 ISSO RESOLVE
+  });
 
   telaPergunta.classList.add("hidden");
   telaFinal.classList.remove("hidden");
