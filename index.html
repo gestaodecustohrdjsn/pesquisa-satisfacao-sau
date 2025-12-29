@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -9,6 +8,7 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Bree+Serif&display=swap" rel="stylesheet">
 
+  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -19,34 +19,41 @@
     <header>
       <img src="assets/images/logo_hospital.png" alt="Logo Hospital">
       <h1>Pesquisa de Satisfação</h1>
-      <p>Sua opinião é muito importante para nós</p>
+      <p>Sua opinião é muito importante</p>
     </header>
 
-    <!-- TELA 1 -->
+    <!-- TELA PRINCIPAL -->
     <section class="tela ativa" id="tela1">
       <h2>Como você avalia o atendimento?</h2>
 
       <div class="opcoes">
         <button onclick="responder('Muito Satisfeito')">
-          <img src="assets/images/Muito Satisfeito.png">
+          <img src="assets/images/Muito Satisfeito.png" alt="Muito satisfeito">
           <span>Muito satisfeito</span>
         </button>
 
         <button onclick="responder('Satisfeito')">
-          <img src="assets/images/Satisfeito.png">
+          <img src="assets/images/Satisfeito.png" alt="Satisfeito">
           <span>Satisfeito</span>
         </button>
 
         <button onclick="responder('Insatisfeito')">
-          <img src="assets/images/Insatisfeito.png">
+          <img src="assets/images/Insatisfeito.png" alt="Insatisfeito">
           <span>Insatisfeito</span>
         </button>
       </div>
     </section>
 
-    <!-- FINAL -->
+    <!-- TELA FINAL -->
     <section class="tela" id="telaFinal">
       <h2>Obrigado pela sua participação 💙</h2>
       <p>A pesquisa será reiniciada automaticamente</p>
     </section>
 
+  </div>
+
+  <!-- ⚠️ SCRIPT SEMPRE NO FINAL -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>
