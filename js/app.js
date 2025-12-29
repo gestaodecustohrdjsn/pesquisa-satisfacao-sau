@@ -103,9 +103,9 @@ function enviarDados() {
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
-    body: JSON.stringify(payload),
-    mode: "no-cors"
-  })
+    body: dados,
+    mode: "no-cors"   // 👈 ISSO RESOLVE
+  });
     .catch(() => salvarOffline(payload));
 
   mostrarTelaFinal();
