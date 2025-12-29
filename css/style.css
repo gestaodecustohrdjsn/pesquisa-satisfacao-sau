@@ -38,6 +38,11 @@ body {
   height: 70px;
 }
 
+/* 🔑 FAZ O BLOCO TER O TAMANHO DO TEXTO */
+.titulo-texto {
+  display: inline-block;
+}
+
 .titulo-texto h1 {
   margin: 0;
   color: var(--turquesa-60);
@@ -45,13 +50,15 @@ body {
   font-size: 2.1em;
 }
 
+/* 🔑 AGORA SIM A LINHA SEGUE O TEXTO */
 .divider {
-  width: fit-content;
+  width: 100%;
   height: 4px;
   background: var(--turquesa-100);
   margin-top: 10px;
   border-radius: 4px;
 }
+
 
 /* ===== TELAS ===== */
 
