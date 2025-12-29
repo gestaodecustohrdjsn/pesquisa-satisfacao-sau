@@ -1,6 +1,11 @@
 const URL_APPS_SCRIPT =
   "https://script.google.com/macros/s/AKfycbyGMuzVVrpv4iMM9WTm_4nqRjh3HBCKcnRfqOd9Dfdgq0uPHv04e0Qi-gEEymiTBUn7/exec";
 
+const params = new URLSearchParams(window.location.search);
+const SETOR = params.get("setor") || "Ambulatório";
+
+console.log("Setor ativo:", SETOR);
+
 console.log("Ok - JS carregado com sucesso");
 
 /* =========================
@@ -95,7 +100,7 @@ function animarTrocaPergunta(callback) {
 function enviarDados() {
 
   const dados = new URLSearchParams();
-  dados.append("setor", "Ambulatório");
+  dados.append("setor", SETOR);
   dados.append("atendimento", respostas.atendimento || "");
   dados.append("espera", respostas.espera || "");
   dados.append("limpeza", respostas.limpeza || "");
