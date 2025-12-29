@@ -35,22 +35,26 @@ function responder(valor) {
 
 function enviarDados() {
 
+  const dados = new URLSearchParams({
+    setor: "Ambulatório",
+    atendimento: respostas.atendimento || "",
+    espera: respostas.espera || "",
+    limpeza: respostas.limpeza || ""
+  });
+
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      setor: "Ambulatório",
-      atendimento: respostas.atendimento || "",
-      espera: respostas.espera || "",
-      limpeza: respostas.limpeza || ""
-    })
-  });
+    body: dados
+  })
+  .then(() => console.log("Dados enviados com sucesso"))
+  .catch(err => console.error("Erro no envio", err));
 
   telaPergunta.classList.add("hidden");
   telaFinal.classList.remove("hidden");
 
   setTimeout(reiniciar, 3000);
 }
+
 
 function reiniciar() {
   indice = 0;
