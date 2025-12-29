@@ -1,6 +1,7 @@
 :root {
-  --azul-principal: #5CE1E6;
-  --azul-secundario: #0097B2;
+  --turquesa-100: #5CE1E6;
+  --turquesa-60:  #0097B2;
+  --turquesa-15:  rgba(92,225,230,0.15);
 }
 
 * {
@@ -10,7 +11,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #e9f7f8, #ffffff);
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,76 +19,75 @@ body {
 }
 
 .container {
-  background: white;
   width: 100%;
   max-width: 720px;
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-  overflow: hidden;
+  padding: 30px 25px 40px;
 }
 
 header {
-  background: var(--azul-principal);
-  padding: 25px 20px;
   text-align: center;
 }
 
 header img {
-  height: 65px;
-  margin-bottom: 10px;
+  height: 70px;
+  margin-bottom: 15px;
 }
 
 header h1 {
-  margin: 5px 0;
+  margin: 0;
+  color: var(--turquesa-60);
   font-weight: 600;
 }
 
-header p {
-  margin: 0;
-  font-size: 1.1em;
+.divider {
+  width: 80px;
+  height: 4px;
+  background: var(--turquesa-100);
+  margin: 20px auto 40px;
+  border-radius: 4px;
 }
 
 .tela {
-  padding: 40px 25px;
   text-align: center;
 }
 
 h2 {
   font-family: 'Bree Serif', serif;
-  margin-bottom: 40px;
+  color: #222;
+  margin-bottom: 45px;
 }
 
 .opcoes {
   display: flex;
-  gap: 20px;
+  gap: 25px;
   justify-content: center;
 }
 
 .opcoes button {
-  background: #fff;
+  background: var(--turquesa-15);
   border: none;
-  border-radius: 18px;
-  padding: 20px 15px;
+  border-radius: 16px;
+  padding: 25px 15px;
   width: 100%;
-  max-width: 180px;
+  max-width: 190px;
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .opcoes button:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 26px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,151,178,0.25);
 }
 
 .opcoes img {
-  width: 90px;
-  margin-bottom: 10px;
+  width: 85px;
+  margin-bottom: 12px;
 }
 
 .opcoes span {
-  font-size: 1.05em;
+  color: var(--turquesa-60);
   font-weight: 600;
+  font-size: 1.05em;
 }
 
 .hidden {
@@ -96,11 +96,11 @@ h2 {
 
 .mensagem-final {
   opacity: 0.15;
-  font-size: 1.6em;
+  font-size: 1.5em;
   margin-top: 20px;
 }
 
-/* 📱 RESPONSIVO */
+/* 📱 Mobile / Tablet */
 @media (max-width: 600px) {
   .opcoes {
     flex-direction: column;
