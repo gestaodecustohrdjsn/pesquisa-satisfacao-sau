@@ -1,4 +1,4 @@
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz37vCcKamK_c4AtNUP3Bz0UlbjVj183XtQ9RTly1FWNte7X5ZJ0uHLFKlhGDQ9WYEa/exec";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbyGMuzVVrpv4iMM9WTm_4nqRjh3HBCKcnRfqOd9Dfdgq0uPHv04e0Qi-gEEymiTBUn7/exec";
 
 // 🔹 AQUI VOCÊ CONTROLA AS PERGUNTAS
 const perguntas = [
