@@ -59,3 +59,6 @@ function reiniciar() {
   telaPergunta.classList.remove("hidden");
   mostrarPergunta();
 }
+
+console.log("JS carregado com sucesso");
+
