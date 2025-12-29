@@ -1,5 +1,5 @@
 // 🔗 URL do Apps Script (Web App)
-const URL_SCRIPT = "COLE_AQUI_SUA_URL_DO_APPS_SCRIPT";
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbx6D4Kg6ZZHosbLveXr-LqgzDRO6O1ME7WffNo8pONYT4IBJmJFloPSk03juCpGoii0/exec";
 
 // Torna a função visível para o HTML
 window.responder = function(resposta) {
@@ -13,17 +13,19 @@ window.responder = function(resposta) {
   }, 4000);
 };
 
-function enviarDados(resposta) {
-  fetch(URL_SCRIPT, {
+function enviarDados() {
+  fetch(URL_APPS_SCRIPT, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      atendimento: resposta
+      setor: setorSelecionado,
+      atendimento: respostaAtendimento,
+      espera: respostaEspera,
+      limpeza: respostaLimpeza
     })
-  })
-  .then(r => r.text())
-  .then(r => console.log("Resposta do servidor:", r))
-  .catch(err => console.error("Erro no envio:", err));
+  });
 }
+
 
 window.trocarTela = function(id) {
   document.querySelectorAll(".tela").forEach(t =>
