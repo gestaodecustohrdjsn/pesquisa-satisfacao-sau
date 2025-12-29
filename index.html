@@ -14,47 +14,46 @@
 
 <body>
 
-  <div class="card">
+  <div class="container">
 
     <header>
       <img src="assets/images/logo_hospital.png" alt="Logo Hospital">
       <h1>Pesquisa de Satisfação</h1>
+      <p>Sua opinião é muito importante</p>
     </header>
 
-    <main id="tela-pergunta">
+    <!-- TELA PERGUNTA -->
+    <section id="tela-pergunta" class="tela">
       <h2 id="pergunta"></h2>
 
       <div class="opcoes">
-        <button onclick="responder(1)">
-          <img src="assets/images/Insatisfeito.png" alt="Insatisfeito">
-          <span>Insatisfeito</span>
+        <button onclick="responder(3)">
+          <img src="assets/images/Muito Satisfeito.png">
+          <span>Muito satisfeito</span>
         </button>
 
         <button onclick="responder(2)">
-          <img src="assets/images/Satisfeito.png" alt="Satisfeito">
+          <img src="assets/images/Satisfeito.png">
           <span>Satisfeito</span>
         </button>
 
-        <button onclick="responder(3)">
-          <img src="assets/images/Muito Satisfeito.png" alt="Muito satisfeito">
-          <span>Muito satisfeito</span>
+        <button onclick="responder(1)">
+          <img src="assets/images/Insatisfeito.png">
+          <span>Insatisfeito</span>
         </button>
       </div>
-    </main>
+    </section>
 
-    <main id="tela-final" class="hidden">
-      <h2 class="mensagem-final">
+    <!-- TELA FINAL -->
+    <section id="tela-final" class="tela hidden">
+      <h2>Obrigado pela sua participação 💙</h2>
+      <p class="mensagem-final">
         A pesquisa será reiniciada automaticamente
-      </h2>
-    </main>
+      </p>
+    </section>
 
   </div>
 
-  <!-- JS -->
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=3"></script>
 </body>
 </html>
-
-
-
-
