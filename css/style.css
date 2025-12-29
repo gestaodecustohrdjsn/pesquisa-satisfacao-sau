@@ -46,7 +46,7 @@ body {
 }
 
 .divider {
-  width: 300px;
+  width: fit-content;
   height: 4px;
   background: var(--turquesa-100);
   margin-top: 10px;
