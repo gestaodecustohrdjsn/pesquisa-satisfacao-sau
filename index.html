@@ -8,7 +8,8 @@
   <!-- Fontes -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Bree+Serif&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -16,31 +17,29 @@
   <div class="card">
 
     <header>
-      <img src="Images/logo_hospital.png" alt="Logo Hospital">
+      <img src="assets/images/logo_hospital.png" alt="Logo Hospital">
       <h1>Pesquisa de Satisfação</h1>
     </header>
 
     <main id="tela-pergunta">
-
       <h2 id="pergunta"></h2>
 
       <div class="opcoes">
         <button onclick="responder(1)">
-          <img src="Images/Insatisfeito.png">
+          <img src="assets/images/Insatisfeito.png" alt="Insatisfeito">
           <span>Insatisfeito</span>
         </button>
 
         <button onclick="responder(2)">
-          <img src="Images/Satisfeito.png">
+          <img src="assets/images/Satisfeito.png" alt="Satisfeito">
           <span>Satisfeito</span>
         </button>
 
         <button onclick="responder(3)">
-          <img src="Images/Muito_Satisfeito.png">
+          <img src="assets/images/Muito Satisfeito.png" alt="Muito satisfeito">
           <span>Muito satisfeito</span>
         </button>
       </div>
-
     </main>
 
     <main id="tela-final" class="hidden">
@@ -51,6 +50,7 @@
 
   </div>
 
-  <script src="app.js"></script>
+  <!-- JS -->
+  <script src="js/app.js"></script>
 </body>
 </html>
