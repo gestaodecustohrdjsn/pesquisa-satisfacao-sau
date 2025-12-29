@@ -62,5 +62,5 @@ function reiniciar() {
   mostrarPergunta();
 }
 
-console.log("JS carregado com sucesso");
+console.log("Ok - JS carregado com sucesso");
 
