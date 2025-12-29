@@ -90,7 +90,9 @@ h2 {
 .hidden {
   display: none;
 }
-
+.hidden {
+  display: none;
+}
 
 .mensagem-final {
   opacity: 0.15;
