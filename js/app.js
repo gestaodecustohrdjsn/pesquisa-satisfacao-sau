@@ -1,4 +1,4 @@
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz37vCcKamK_c4AtNUP3Bz0UlbjVj183XtQ9RTly1FWNte7X5ZJ0uHLFKlhGDQ9WYEa/exec/";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz37vCcKamK_c4AtNUP3Bz0UlbjVj183XtQ9RTly1FWNte7X5ZJ0uHLFKlhGDQ9WYEa/exec";
 
 // 🔹 AQUI VOCÊ CONTROLA AS PERGUNTAS
 const perguntas = [
@@ -35,12 +35,11 @@ function responder(valor) {
 
 function enviarDados() {
 
-  const dados = new URLSearchParams({
-    setor: "Ambulatório",
-    atendimento: respostas.atendimento || "",
-    espera: respostas.espera || "",
-    limpeza: respostas.limpeza || ""
-  });
+  const dados = new URLSearchParams();
+  dados.append("setor", "Ambulatório");
+  dados.append("atendimento", respostas.atendimento || "");
+  dados.append("espera", respostas.espera || "");
+  dados.append("limpeza", respostas.limpeza || "");
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
