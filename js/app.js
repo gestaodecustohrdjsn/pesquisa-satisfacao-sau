@@ -19,7 +19,7 @@ const perguntas = [
       "Tempo de Espera"
     ]
   }
-];
+] ;
 
 let indice = 0;
 let respostas = {};
