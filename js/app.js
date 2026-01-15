@@ -1,114 +1,115 @@
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbyXLeeibl-40seUPy871EjnR6hPaIsvQfP0klrJIcb1bMWwVnZY4tlLXqSyQ0zjGQbg/exec";
-
 const perguntas = [
-  { tipo: "escala", id: "recomendacao", texto: "Em uma escala de 0 a 10, o quanto você recomendaria este hospital?" },
-
-  { tipo: "carinhas", id: "seguranca", texto: "Você se sentiu seguro durante o atendimento?" },
-
-  { tipo: "carinhas", id: "clareza", texto: "Como você avalia a clareza das informações recebidas?" },
-
-  { tipo: "simnao", id: "problema", texto: "Você teve algum problema ou dificuldade durante o atendimento?" },
-
+  {
+    tipo: "escala",
+    texto: "Em uma escala de 0 a 10, o quanto você recomendaria este hospital?"
+  },
+  {
+    tipo: "carinhas",
+    texto: "Você se sentiu seguro durante o atendimento?",
+    opcoes: [
+      { label: "Muito seguro", img: "Muito Satisfeito.png" },
+      { label: "Parcialmente seguro", img: "Satisfeito.png" },
+      { label: "Nada seguro", img: "Insatisfeito.png" }
+    ]
+  },
+  {
+    tipo: "carinhas",
+    texto: "Como você avalia a clareza das informações recebidas?",
+    opcoes: [
+      { label: "Muito satisfeito", img: "Muito Satisfeito.png" },
+      { label: "Satisfeito", img: "Satisfeito.png" },
+      { label: "Insatisfeito", img: "Insatisfeito.png" }
+    ]
+  },
+  {
+    tipo: "sim_nao",
+    texto: "Você teve algum problema ou dificuldade durante o atendimento?"
+  },
   {
     tipo: "matriz",
-    id: "impacto",
     texto: "Qual etapa mais impactou sua experiência?",
     opcoes: [
       "Recepção", "Enfermagem", "Médico",
       "Exames", "Hotelaria / Limpeza", "Alta / Orientações",
-      "Tempo de Espera"
+      "Tempo de espera"
     ]
   }
-] ;
+];
 
 let indice = 0;
-let respostas = {};
 
-const perguntaEl = document.getElementById("pergunta");
-const opcoesEl = document.getElementById("opcoes");
+const textoPergunta = document.getElementById("texto-pergunta");
+const respostas = document.getElementById("respostas");
 const telaPergunta = document.getElementById("tela-pergunta");
+const telaQRCode = document.getElementById("tela-qrcode");
 const telaFinal = document.getElementById("tela-final");
-const telaQR = document.getElementById("tela-qr");
-
-mostrarPergunta();
 
 function mostrarPergunta() {
+  respostas.innerHTML = "";
+  telaPergunta.classList.remove("hidden");
+  telaQRCode.classList.add("hidden");
+  telaFinal.classList.add("hidden");
+
   const p = perguntas[indice];
-  perguntaEl.innerText = p.texto;
-  opcoesEl.className = "opcoes";
-  opcoesEl.innerHTML = "";
+  textoPergunta.innerText = p.texto;
 
   if (p.tipo === "escala") {
-    opcoesEl.classList.add("escala");
+    respostas.className = "escala";
     for (let i = 0; i <= 10; i++) {
-      criarBotao(i, i);
+      criarBotao(i);
     }
   }
 
   if (p.tipo === "carinhas") {
-    criarBotao("Muito seguro", "Muito seguro");
-    criarBotao("Parcialmente seguro", "Parcialmente seguro");
-    criarBotao("Nada seguro", "Nada seguro");
+    respostas.className = "";
+    p.opcoes.forEach(o => {
+      const div = document.createElement("div");
+      div.className = "carinha";
+      div.innerHTML = `<img src="assets/images/${o.img}"><span>${o.label}</span>`;
+      div.onclick = avancar;
+      respostas.appendChild(div);
+    });
   }
 
-  if (p.tipo === "simnao") {
-    criarBotao("Sim", "Sim");
-    criarBotao("Não", "Não");
+  if (p.tipo === "sim_nao") {
+    respostas.className = "";
+    criarBotao("Sim", () => mostrarQRCode());
+    criarBotao("Não", avancar);
   }
 
   if (p.tipo === "matriz") {
-    opcoesEl.classList.add("matriz");
-    p.opcoes.forEach(o => criarBotao(o, o));
+    respostas.className = "matriz";
+    p.opcoes.forEach(o => criarBotao(o, finalizar));
   }
 }
 
-function criarBotao(texto, valor) {
+function criarBotao(texto, acao = avancar) {
   const btn = document.createElement("button");
+  btn.className = "botao";
   btn.innerText = texto;
-  btn.onclick = () => responder(valor);
-  opcoesEl.appendChild(btn);
+  btn.onclick = acao;
+  respostas.appendChild(btn);
 }
 
-function responder(valor) {
-  const p = perguntas[indice];
-  respostas[p.id] = valor;
-
-  if (p.tipo === "simnao" && valor === "Não") {
-    telaPergunta.classList.add("hidden");
-    telaQR.classList.remove("hidden");
-    setTimeout(reiniciar, 10000);
-    return;
-  }
-
+function avancar() {
   indice++;
-
-  if (indice < perguntas.length) {
-    mostrarPergunta();
-  } else {
-    enviar();
-  }
+  if (indice < perguntas.length) mostrarPergunta();
 }
 
-function enviar() {
-  const dados = new URLSearchParams(respostas);
+function mostrarQRCode() {
+  telaPergunta.classList.add("hidden");
+  telaQRCode.classList.remove("hidden");
 
-  fetch(URL_APPS_SCRIPT, {
-    method: "POST",
-    body: dados,
-    mode: "no-cors"
-  });
+  setTimeout(() => {
+    indice++;
+    mostrarPergunta();
+  }, 8000);
+}
 
+function finalizar() {
   telaPergunta.classList.add("hidden");
   telaFinal.classList.remove("hidden");
-
-  setTimeout(reiniciar, 3000);
+  setTimeout(() => location.reload(), 5000);
 }
 
-function reiniciar() {
-  indice = 0;
-  respostas = {};
-  telaFinal.classList.add("hidden");
-  telaQR.classList.add("hidden");
-  telaPergunta.classList.remove("hidden");
-  mostrarPergunta();
-}
+mostrarPergunta();
