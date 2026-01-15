@@ -3,40 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <title>Pesquisa de Satisfação</title>
-
   <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Bree+Serif&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <header class="header">
-    <h1>Pesquisa de Satisfação</h1>
-  </header>
+    <!-- HEADER -->
+    <header class="header-titulo">
+      <img src="assets/images/logo_hospital.png" alt="Logo Hospital">
 
-  <section id="tela-pergunta">
-    <h2 id="texto-pergunta"></h2>
-    <div id="respostas"></div>
-  </section>
+      <div class="titulo-texto">
+        <h1>Pesquisa de Satisfação</h1>
+        <div class="divider"></div>
+      </div>
+    </header>
 
-  <section id="tela-qrcode" class="hidden">
-    <h2>Queremos entender melhor</h2>
-    <p>Escaneie o QR Code abaixo</p>
-    <img src="assets/images/qrcode-form.png" class="qrcode">
-  </section>
+    <!-- TELA PERGUNTA -->
+    <section id="tela-pergunta" class="tela">
+      <h2 id="pergunta">Como você avalia o atendimento?</h2>
 
-  <section id="tela-final" class="hidden">
-    <h2>Obrigado pela sua participação</h2>
-    <p>A pesquisa será reiniciada automaticamente</p>
-  </section>
+      <div class="opcoes">
+        <button onclick="responder(3)">
+          <img src="assets/images/Muito Satisfeito.png" alt="">
+          <span>Muito satisfeito</span>
+        </button>
 
-</div>
+        <button onclick="responder(2)">
+          <img src="assets/images/Satisfeito.png" alt="">
+          <span>Satisfeito</span>
+        </button>
 
-<script src="js/app.js"></script>
+        <button onclick="responder(1)">
+          <img src="assets/images/Insatisfeito.png" alt="">
+          <span>Insatisfeito</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- TELA FINAL -->
+    <section id="tela-final" class="tela hidden">
+      <h2>Obrigado pela sua participação</h2>
+      <p class="mensagem-final">
+        A pesquisa será reiniciada automaticamente
+      </p>
+    </section>
+
+  </div>
+
+  <script src="js/app.js?v=4"></script>
 </body>
 </html>
+
