@@ -1,4 +1,4 @@
-const URL_APPS_SCRIPT = "COLE_AQUI_SUA_URL";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbyQRmLDHqiyVDZ1ssjmbjqMUGvKwYxnkFSRu5ewFdghPt_jWU9Lmo5ggJefm-7DbxzR/exec";
 
 const perguntas = [
   { tipo: "escala", id: "recomendacao", texto: "Em uma escala de 0 a 10, o quanto você recomendaria este hospital?" },
