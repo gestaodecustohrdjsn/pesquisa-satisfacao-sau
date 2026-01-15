@@ -1,162 +1,103 @@
-/* =========================
-   CONFIG GERAL
-========================= */
-const URL_APPS_SCRIPT =
-  "https://script.google.com/macros/s/AKfycbx7iYRrxsWgPkuZz3j-qw_Demn5-fMRzhxbiuYdMbnMHf5grvxJpEFkXqyprGG5M6PM/exec";
+const URL_APPS_SCRIPT = "COLE_AQUI_SUA_URL";
 
-// setor via URL ?setor=Ambulatorio | ?setor=Pronto%20Socorro
-const params = new URLSearchParams(window.location.search);
-const SETOR = params.get("setor") || "Ambulatório";
-
-console.log("Setor ativo:", SETOR);
-
-/* =========================
-   PERGUNTAS
-========================= */
 const perguntas = [
-  { id: "avaliacao_geral", texto: "1 - Qual sua Avaliação Geral do Hospital?" },
-  { id: "recepcao", texto: "2 - Como você avalia o atendimento da Recepção?" },
-  { id: "enfermagem", texto: "3 - Como você avalia o atendimento da Enfermagem e Triagem?" },
-  { id: "medico", texto: "4 - Como você avalia o atendimento Médico?" },
-  { id: "limpeza", texto: "5 - Como você avalia a Limpeza do ambiente?" },
-  { id: "tempo", texto: "6 - Como você avalia o Tempo de Espera?" },
-  { id: "educacao", texto: "7 - Como você avalia a Educação e Respeito dos profissionais?" }
+  { tipo: "escala", id: "recomendacao", texto: "Em uma escala de 0 a 10, o quanto você recomendaria este hospital?" },
+
+  { tipo: "carinhas", id: "seguranca", texto: "Você se sentiu seguro durante o atendimento?" },
+
+  { tipo: "carinhas", id: "clareza", texto: "Como você avalia a clareza das informações recebidas?" },
+
+  { tipo: "simnao", id: "problema", texto: "Você teve algum problema ou dificuldade durante o atendimento?" },
+
+  {
+    tipo: "matriz",
+    id: "impacto",
+    texto: "Qual etapa mais impactou sua experiência?",
+    opcoes: [
+      "Recepção", "Enfermagem", "Médico",
+      "Exames", "Hotelaria / Limpeza", "Alta / Orientações",
+      "Tempo de Espera"
+    ]
+  }
 ];
 
-/* =========================
-   MAPA DE RESPOSTAS
-========================= */
-const mapaRespostas = {
-  1: "Insatisfeito",
-  2: "Satisfeito",
-  3: "Muito satisfeito"
-};
-
-/* =========================
-   CONTROLE
-========================= */
 let indice = 0;
 let respostas = {};
-let bloqueado = false;
 
-/* =========================
-   ELEMENTOS
-========================= */
 const perguntaEl = document.getElementById("pergunta");
+const opcoesEl = document.getElementById("opcoes");
 const telaPergunta = document.getElementById("tela-pergunta");
 const telaFinal = document.getElementById("tela-final");
+const telaQR = document.getElementById("tela-qr");
 
-/* =========================
-   INICIALIZA
-========================= */
 mostrarPergunta();
-reenviarFilaOffline();
-console.log("JS carregado com sucesso");
 
-/* =========================
-   MOSTRAR PERGUNTA
-========================= */
 function mostrarPergunta() {
-  perguntaEl.innerText = perguntas[indice].texto;
-}
+  const p = perguntas[indice];
+  perguntaEl.innerText = p.texto;
+  opcoesEl.className = "opcoes";
+  opcoesEl.innerHTML = "";
 
-/* =========================
-   RESPONDER
-========================= */
-function responder(valor) {
-  if (bloqueado) return;
-  bloqueado = true;
-
-  const chave = perguntas[indice].id;
-  respostas[chave] = mapaRespostas[valor];
-
-  animarTrocaPergunta(() => {
-    indice++;
-
-    if (indice < perguntas.length) {
-      mostrarPergunta();
-      bloqueado = false;
-    } else {
-      finalizarPesquisa();
+  if (p.tipo === "escala") {
+    opcoesEl.classList.add("escala");
+    for (let i = 0; i <= 10; i++) {
+      criarBotao(i, i);
     }
-  });
+  }
+
+  if (p.tipo === "carinhas") {
+    criarBotao("Muito seguro", "Muito seguro");
+    criarBotao("Parcialmente seguro", "Parcialmente seguro");
+    criarBotao("Nada seguro", "Nada seguro");
+  }
+
+  if (p.tipo === "simnao") {
+    criarBotao("Sim", "Sim");
+    criarBotao("Não", "Não");
+  }
+
+  if (p.tipo === "matriz") {
+    opcoesEl.classList.add("matriz");
+    p.opcoes.forEach(o => criarBotao(o, o));
+  }
 }
 
-/* =========================
-   ANIMAÇÃO
-========================= */
-function animarTrocaPergunta(callback) {
-  telaPergunta.classList.add("saindo");
-
-  setTimeout(() => {
-    telaPergunta.classList.remove("saindo");
-    telaPergunta.classList.add("entrando");
-
-    setTimeout(() => {
-      telaPergunta.classList.remove("entrando");
-      callback();
-    }, 120);
-  }, 300);
+function criarBotao(texto, valor) {
+  const btn = document.createElement("button");
+  btn.innerText = texto;
+  btn.onclick = () => responder(valor);
+  opcoesEl.appendChild(btn);
 }
 
-/* =========================
-   FINALIZAR
-========================= */
-function finalizarPesquisa() {
-  mostrarTelaFinal();
-  enviarDados(); // envio nunca bloqueia UI
+function responder(valor) {
+  const p = perguntas[indice];
+  respostas[p.id] = valor;
+
+  if (p.tipo === "simnao" && valor === "Não") {
+    telaPergunta.classList.add("hidden");
+    telaQR.classList.remove("hidden");
+    setTimeout(reiniciar, 10000);
+    return;
+  }
+
+  indice++;
+
+  if (indice < perguntas.length) {
+    mostrarPergunta();
+  } else {
+    enviar();
+  }
 }
 
-/* =========================
-   ENVIO
-========================= */
-function enviarDados() {
-  const dados = new URLSearchParams();
-  dados.append("setor", SETOR);
-
-  perguntas.forEach(p => {
-    dados.append(p.id, respostas[p.id] || "");
-  });
+function enviar() {
+  const dados = new URLSearchParams(respostas);
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
     body: dados,
     mode: "no-cors"
-  }).catch(() => salvarOffline(dados.toString()));
-}
-
-/* =========================
-   OFFLINE
-========================= */
-function salvarOffline(payload) {
-  const fila = JSON.parse(localStorage.getItem("fila_respostas") || "[]");
-  fila.push(payload);
-  localStorage.setItem("fila_respostas", JSON.stringify(fila));
-}
-
-window.addEventListener("online", reenviarFilaOffline);
-
-function reenviarFilaOffline() {
-  const fila = JSON.parse(localStorage.getItem("fila_respostas") || "[]");
-  if (!fila.length) return;
-
-  const restante = [];
-
-  fila.forEach(payload => {
-    fetch(URL_APPS_SCRIPT, {
-      method: "POST",
-      body: payload,
-      mode: "no-cors"
-    }).catch(() => restante.push(payload));
   });
 
-  localStorage.setItem("fila_respostas", JSON.stringify(restante));
-}
-
-/* =========================
-   TELA FINAL / RESET
-========================= */
-function mostrarTelaFinal() {
   telaPergunta.classList.add("hidden");
   telaFinal.classList.remove("hidden");
 
@@ -166,36 +107,8 @@ function mostrarTelaFinal() {
 function reiniciar() {
   indice = 0;
   respostas = {};
-  bloqueado = false;
-
   telaFinal.classList.add("hidden");
+  telaQR.classList.add("hidden");
   telaPergunta.classList.remove("hidden");
-
   mostrarPergunta();
 }
-
-
-// 🔒 Bloqueia zoom por gesto
-document.addEventListener(
-  "gesturestart",
-  function (e) {
-    e.preventDefault();
-  },
-  { passive: false }
-);
-
-document.addEventListener(
-  "gesturechange",
-  function (e) {
-    e.preventDefault();
-  },
-  { passive: false }
-);
-
-document.addEventListener(
-  "gestureend",
-  function (e) {
-    e.preventDefault();
-  },
-  { passive: false }
-);
